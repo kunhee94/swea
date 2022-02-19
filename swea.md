@@ -25,6 +25,7 @@ for tc in range(1,11):
 ### 1208번
 
 ```python
+# 첫번째 풀이
 def my_max(num):
     max_ = num[0]
     for i in range(len(num)):
@@ -60,6 +61,40 @@ for tc in range(1,11):
         boxes[min_idx(boxes)] += 1      # 기존 최저높이의 상자의 인덱스를 찾아내서 boxes의 해당 인덱스의 값을 1 늘림
         dump_cnt += 1
     print(f'#{tc} {boxes[max_idx(boxes)]-boxes[min_idx(boxes)]}')
+    
+# 다시 풀어봄
+def my_max(num):
+    max_ = num[0]
+    for i in range(len(num)):
+        if num[i] > max_:
+            max_ = num[i]
+    return max_
+
+def my_min(num):
+    min_ = num[0]
+    for i in range(len(num)):
+        if num[i] < min_:
+            min_ = num[i]
+    return min_
+for tc in range(1,11):
+    N = int(input())
+    boxes = list(map(int, input().split()))
+    while N > 0:
+        high_box = my_max(boxes)
+        low_box = my_min(boxes)
+        if high_box - low_box == 0 or high_box - low_box == 1:
+            break
+        N -= 1
+        for i in range(len(boxes)):
+            if boxes[i] == high_box:
+                boxes[i] -= 1
+                break
+        for i in range(len(boxes)):
+            if boxes[i] == low_box:
+                boxes[i] += 1
+                break
+    gap = my_max(boxes) - my_min(boxes)
+    print(f'#{tc} {gap}')
 ```
 
 ### 4834번
@@ -468,6 +503,74 @@ for tc in range(1, 1+T):
         elif price[idx] < max_price:
             result += max_price - price[idx]
     print(f'#{tc} {result}')
+
+```
+
+### babygin
+
+```python
+T = int(input())
+
+for tc in range(1, T+1):
+    cards = list(map(int, input())) # 카드 받아오기
+    cnt_card = [0]*10    # 카드 갯수 세기
+    for i in range(len(cards)):
+        cnt_card[cards[i]] += 1
+    triple = 0
+    run = 0
+    # print(cnt_card)
+    # run 찾기
+    i = 0
+    while i <= 7:
+        if cnt_card[i] and cnt_card[i+1] and cnt_card[i+2]:
+            cnt_card[i] -= 1
+            cnt_card[i+1] -= 1
+            cnt_card[i+2] -= 1
+            run += 1
+            continue
+        i += 1
+    j = 0
+    while j <= 9:
+        if cnt_card[j] >= 3:
+            cnt_card[j] -= 3
+            triple += 1
+            continue
+        j += 1
+    if (run ==  2 or triple == 2) or (run and triple):
+        print(1)
+    else:
+        print(0)
+```
+
+### 전기버스
+
+```python
+T = int(input())
+
+for tc in range(1,1+T):
+    K, N, M = map(int, input().split())
+    charge_st = list(map(int, input().split()))
+    bus_st = [0]*(N+1)
+    # 어느 정류장에 충선소 있는지 표시
+    for i in range(len(charge_st)):
+        bus_st[charge_st[i]] += 1
+    bus = K         # 버스 위치
+    ch_cnt = 0      # 충전 횟수
+    a = 0           # 이동위치에 충전기 없을때 뒤로 돌아가는 횟수
+    while True:
+        if bus >= N:
+            break
+        if bus_st[bus]:
+            bus += K
+            ch_cnt += 1
+            a = 0
+        else:
+            bus -= 1
+            a += 1
+            if a == K:  # K만큼 뒤로 돌아가야 한다면 노선 설계문제임
+                ch_cnt = 0
+                break
+    print(f'#{tc} {ch_cnt}')
 
 ```
 
