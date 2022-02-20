@@ -504,6 +504,21 @@ for tc in range(1, 1+T):
             result += max_price - price[idx]
     print(f'#{tc} {result}')
 
+# 최적화 했는데도 에러뜸 swea 문제인듯
+T = int(input())
+
+for tc in range(1, 1+T):
+    N = int(input())
+    price = list(map(int, input().split()))
+    m_price = max(price)
+    result = 0
+    for i in range(len(price)-1):
+        if price[i] < m_price:
+            result += (m_price - price[i])
+        elif price[i] >= m_price:
+            m_price = max(price[i+1:len(price)])
+    print(f'#{tc} {result}')
+
 ```
 
 ### babygin
