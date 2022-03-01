@@ -1,141 +1,113 @@
 import sys
 sys.stdin = open("input.txt", "r")
-
-# def flag_color(arr):
-#     M = len(arr)
-#     result = []
-#     cnt = 0
-#     for y in range(M):
-#         if arr[y] != 'W':
-#             cnt += 1
-#     result.append(cnt)
-#     cnt = 0
-#     for y in range(M):
-#         if arr[y] != 'B':
-#             cnt += 1
-#     result.append(cnt)
-#     cnt = 0
-#     for y in range(M):
-#         if arr[y] != 'R':
-#             cnt += 1
-#     result.append(cnt)
-#     return result
-#
-# T = int(input())
-#
-# for tc in range(1, 1+T):
-#     N, M = map(int, input().split())
-#     flag = [list(map(str, input())) for _ in range(N)]
-#     cnt = 0
-#
-#     # 첫번째 줄이거나 위의 줄이 흰색이었고 흰색바꿀때 횟수가
-#     # 가장 작을때는 cnt에 flag_color(flag)[0]을 더해줌
-#     for i in range(N):
-#         # 첫번째 줄은 흰색으로 칠한다.
-#         if i == 0:
-#             flag[i][0] = 'W'
-#             cnt += flag_color(flag[i])[0]
-#
-#         # 윗줄이 흰줄이고 흰색으로 바꿀 때 횟수가 파랑으로 바꿀때 보다 작거나 같으면 흰색으로 칠함
-#         elif flag[i-1][0] == 'W':
-#             # flag_color(flag[i])[0] < flag_color(flag[i])[1] 이러면 흰색 횟수가 적은거
-#             if flag_color(flag[i])[0] <= flag_color(flag[i])[1]:
-#                 flag[i][0] = 'W'
-#                 cnt += flag_color(flag[i])[0]
-#
-#         # 윗줄이 흰줄이고 파랑으로 바꿀 때 횟수가 흰색으로 바꿀때 보다 작거나 같다면 파랑으로 칠함
-#         elif flag[i-1][0] == 'W':
-#             if flag_color(flag[i])[1] < flag_color(flag[i])[0]:
-#                 flag[i][0] = 'B'
-#                 cnt += flag_color(flag[i])[1]
-#
-#         # 윗줄이 파랑이고 파랑으로 바꿀 때 횟수가 빨강으로 바꿀때 보다 작다면 파랑으로 칠함
-#         elif flag[i-1][0] == 'B':
-#             if flag_color(flag[i])[1] < flag_color(flag[i])[2]:
-#                 flag[i][0] = 'B'
-#                 cnt += flag_color(flag[i])[1]
-#
-#         # 윗줄이 파랑이고 빨강으로 바꿀 때 횟수가 파랑으로 바꿀때 보다 작다면 빨강으로 칠함
-#         elif flag[i-1][0] == 'B':
-#             if flag_color(flag[i])[2] < flag_color(flag[i])[1]:
-#                 flag[i][0] = 'R'
-#                 cnt += flag_color(flag[i])[2]
-#
-#         # 윗줄이 빨강이면 빨강으로 칠함
-#         elif flag[i-1][0] == 'R':
-#             cnt += flag_color(flag[i])[2]
-#
-#         # 마지막줄은 빨강이어야 함
-#         elif i == N-1:
-#             cnt += flag_color(flag[i])[2]
-#     print(cnt)
-
-
-
-
 def flag_color(arr):
-    M = len(arr)
     result = []
-    cnt = 0
-    for y in range(M):
-        if arr[y] != ['W']:
-            cnt += 1
-    result.append(cnt)
-    cnt = 0
-    for y in range(M):
-        if arr[y] != ['B']:
-            cnt += 1
-    result.append(cnt)
-    cnt = 0
-    for y in range(M):
-        if arr[y] != ['R']:
-            cnt += 1
-    result.append(cnt)
+    w_cnt = 0
+    b_cnt = 0
+    r_cnt = 0
+
+    for i in range(len(arr)):
+        if arr[i] != 'W':
+            w_cnt += 1
+        if arr[i] != 'B':
+            b_cnt += 1
+        if arr[i] != 'R':
+            r_cnt += 1
+    result.append(w_cnt)
+    result.append(b_cnt)
+    result.append(r_cnt)
     return result
 
 T = int(input())
 
 for tc in range(1, 1+T):
     N, M = map(int, input().split())
-    flag = [list(map(list, input())) for _ in range(N)]
+    flag = [input() for _ in range(N)]
+    # 바꿀 갯수
+    cnt = 0
+    result = []
+    # 바뀐 줄의 색깔 표시
+    what = [0]*N
+    # 갯수 같을때 바꾸는 경우의수 4가지
+    # 첫째줄은 흰색 마지막줄은 빨강으로 칠해야함
+    for x in range(N):
+        if x == 0:
+            cnt += flag_color(flag[x])[0]
+            what[x] = 'W'
+        if x == N-1:
+            cnt += flag_color(flag[x])[2]
+            what[x] = 'R'
+        # 마지막 전줄확인하는데 파란색이 1개도없으면 파랑으로 칠해줘야됨
+        elif x == N-2:
+            if 'B' not in what:
+                cnt += flag_color(flag[x])[1]
+                what[x] = 'B'
+            else:
+                cnt += flag_color(flag[x])[2]
+                what[x] = "R"
+        # 윗줄이 흰색일 때는 파랑이나 흰색중 작은걸로 칠한다.
+        elif what[x-1] == 'W':
+            if flag_color(flag[x])[0] <= flag_color(flag[x])[1]:
+                what[x] = 'W'
+                cnt += flag_color(flag[x])[0]
+            elif flag_color(flag[x])[0] > flag_color(flag[x])[1]:
+                what[x] = 'B'
+                cnt += flag_color(flag[x])[1]
+        # 윗줄이 파랑일 때는 파랑과 빨강중 작은걸로 칠한다.
+        elif what[x-1] == 'B':
+            if flag_color(flag[x])[1] <= flag_color(flag[x])[2]:
+                what[x] = 'B'
+                cnt += flag_color(flag[x])[1]
+            elif flag_color(flag[x])[1] > flag_color(flag[x])[2]:
+                what[x] = 'R'
+                cnt += flag_color(flag[x])[2]
+        # 윗줄이 빨강이면 빨강으로 칠한다.
+        elif what[x-1] == 'R':
+            what[x] = 'R'
+            cnt += flag_color(flag[x])[2]
+    result.append(cnt)
 
-    cnt = flag_color(flag[0])[0]
-    flag[0][0] = ['W']
 
-    # 첫번째 줄이거나 위의 줄이 흰색이었고 흰색바꿀때 횟수가
-    # 가장 작을때는 cnt에 flag_color(flag)[0]을 더해줌
-    for i in range(1, N):
-        # 윗줄이 흰줄이고 흰색으로 바꿀 때 횟수가 파랑으로 바꿀때 보다 작거나 같으면 흰색으로 칠함
-        if flag[i-1][0] == ['W'] and flag_color(flag[i])[0] <= flag_color(flag[i])[1]:
-            flag[i][0] = ['W']
-            cnt += flag_color(flag[i])[0]
-
-        # 윗줄이 흰줄이고 파랑으로 바꿀 때 횟수가 흰색으로 바꿀때 보다 작으면 파랑으로 칠함
-        elif flag[i-1][0] == ['W'] and flag_color(flag[i])[1] < flag_color(flag[i])[0]:
-            flag[i][0] = ['B']
-            cnt += flag_color(flag[i])[1]
-
-        # 윗줄이 파랑이고 파랑으로 바꿀 때 횟수가 빨강으로 바꿀때 보다 작다면 파랑으로 칠함
-        elif flag[i-1][0] == ['B'] and flag_color(flag[i])[1] < flag_color(flag[i])[2]:
-            flag[i][0] = ['B']
-            cnt += flag_color(flag[i])[1]
-
-        # 윗줄이 파랑이고 빨강으로 바꿀 때 횟수가 파랑으로 바꿀때 보다 작거나 같다면 빨강으로 칠함
-        elif flag[i-1][0] == ['B'] and flag_color(flag[i])[2] <= flag_color(flag[i])[1]:
-            flag[i][0] = ['R']
-            cnt += flag_color(flag[i])[2]
-
-        # 윗줄이 빨강이면 빨강으로 칠함
-        elif flag[i-1][0] == ['R']:
-            cnt += flag_color(flag[i])[2]
-
-        # 마지막줄은 빨강이어야 함
-        elif i == N-1:
-            cnt += flag_color(flag[i])[2]
-    print(cnt)
-
-
-
+    # 바꿀 갯수
+    cnt_2 = 0
+    # 바뀐 줄의 색깔 표시
+    what_2 = [0] * N
+    for x in range(N):
+        if x == 0:
+            cnt_2 += flag_color(flag[x])[0]
+            what_2[x] = 'W'
+        if x == N-1:
+            cnt_2 += flag_color(flag[x])[2]
+            what_2[x] = 'R'
+        # 마지막 전줄확인하는데 파란색이 1개도없으면 파랑으로 칠해줘야됨
+        elif x == N-2:
+            if 'B' not in what_2:
+                cnt_2 += flag_color(flag[x])[1]
+                what_2[x] = 'B'
+            else:
+                cnt_2 += flag_color(flag[x])[2]
+                what_2[x] = "R"
+        # 윗줄이 흰색일 때는 파랑이나 흰색중 작은걸로 칠한다.
+        elif what_2[x-1] == 'W':
+            if flag_color(flag[x])[0] < flag_color(flag[x])[1]:
+                what_2[x] = 'W'
+                cnt_2 += flag_color(flag[x])[0]
+            elif flag_color(flag[x])[0] >= flag_color(flag[x])[1]:
+                what_2[x] = 'B'
+                cnt_2 += flag_color(flag[x])[1]
+        # 윗줄이 파랑일 때는 파랑과 빨강중 작은걸로 칠한다.
+        elif what_2[x-1] == 'B':
+            if flag_color(flag[x])[1] < flag_color(flag[x])[2]:
+                what_2[x] = 'B'
+                cnt_2 += flag_color(flag[x])[1]
+            elif flag_color(flag[x])[1] >= flag_color(flag[x])[2]:
+                what_2[x] = 'R'
+                cnt_2 += flag_color(flag[x])[2]
+        # 윗줄이 빨강이면 빨강으로 칠한다.
+        elif what_2[x-1] == 'R':
+            what_2[x] = 'R'
+            cnt_2 += flag_color(flag[x])[2]
+    result.append(cnt_2)
 
 
 
