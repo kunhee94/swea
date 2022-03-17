@@ -12,8 +12,6 @@ sys.stdin = open("input.txt", "r")
 #     N = int(input())
 #     info = [list(map(int, input().split())) for _ in range(N)]
 #     result = 0
-#
-#
 #     # info =[x좌표 y 좌표 방향 에너지]
 #     # 전부 다 쌍소멸될때까지 반복
 #     cnt = 0
@@ -152,8 +150,8 @@ sys.stdin = open("input.txt", "r")
 
 # 또 틀려?
 # 델타이동 상하좌우
-dx = [0, 0, -0.5, 0.5]
-dy = [0.5, -0.5, 0, 0]
+# dx = [0, 0, -0.5, 0.5]
+# dy = [0.5, -0.5, 0, 0]
 
 T = int(input())
 
