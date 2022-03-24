@@ -33,7 +33,7 @@ for tc in range(1, T+1):
         if target[i:i + 7] in pat:
             # 있으면 키값 res에 추가해주고
             res.append(pat[target[i:i + 7]])
-            # 첫번째로 찾은거 였으면 현재위치 저장해두기
+            # 현재위치 저장해두기
             if len(res) == 2:
                 now = i
             # 7칸 이동
@@ -41,10 +41,11 @@ for tc in range(1, T+1):
         else:
             # 패턴일치 안했으면 다음칸으로 이동해서 확인
             i += 1
-        # 마지막 인덱스까지 체크했는데 res가 9개가 아니면 잘못된 곳에서 찾았단 소리니까
-        # 다시 now+1부터 확인
-        if i == len(target) and len(res) != 9:
-            i = now + 1
+            # 마지막 인덱스까지 체크했는데 res가 9개가 아니면 잘못된 곳에서 찾았단 소리니까
+            # 다시 now+1부터 확인
+            if i == len(target) - 7 and len(res) != 9:
+                i = now + 2
+    print(res)
     # 홀수
     hol = 0
     # 짝수
@@ -62,3 +63,4 @@ for tc in range(1, T+1):
         print(f'#{tc} {sum(res)}')
     else:
         print(f'#{tc} 0')
+
