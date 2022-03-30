@@ -1,13 +1,11 @@
 import sys
 sys.stdin = open("input.txt", "r")
 
-# # 시간초과
+# # # 시간초과
 # # 델타이동 상하좌우
 # dx = [0, 0, -0.5, 0.5]
 # dy = [0.5, -0.5, 0, 0]
-#
 # T = int(input())
-#
 # for tc in range(1, 1+T):
 #     N = int(input())
 #     info = [list(map(int, input().split())) for _ in range(N)]
@@ -50,108 +48,9 @@ sys.stdin = open("input.txt", "r")
 
 
 
-# # 델타이동 상하좌우
-# dx = [0, 0, -0.5, 0.5]
-# dy = [0.5, -0.5, 0, 0]
-#
-# T = int(input())
-#
-# for tc in range(1, 1+T):
-#     N = int(input())
-#     info = [list(map(int, input().split())) for _ in range(N)]
-#     result = 0
-#     k = info[:]
-#     # 가망없는 친구들 삭제
-#     for i in range(N):
-#         # 방향이 0 일때
-#         if info[i][2] == 0:
-#             for j in range(N):
-#                 # 방향이 1이고 x좌표가 동일한 info가 있는지 체크
-#                 if info[i][0] == info[j][0] and info[j][2] == 1:
-#                     break
-#             # 없었다면 info[i]삭제해야함
-#             else:
-#                 k.remove(info[i])
-#         # 방향 1 일 때
-#         elif info[i][2] == 1:
-#             for j in range(N):
-#                 # 방향이 0이고 x좌표가 동일한 info가 있는지 체크
-#                 if info[i][0] == info[j][0] and info[j][2] == 0:
-#                     break
-#             # 없었다면 info[i]삭제해야함
-#             else:
-#                 k.remove(info[i])
-#         # 방향 2 일 때
-#         elif info[i][2] == 2:
-#             for j in range(N):
-#                 # 방향이 3이고 y좌표가 동일한 info가 있는지 체크
-#                 if info[i][1] == info[j][1] and info[j][2] == 3:
-#                     break
-#             # 없었다면 info[i]삭제해야함
-#             else:
-#                 k.remove(info[i])
-#         # 방향 3 일 때
-#         elif info[i][2] == 3:
-#             for j in range(N):
-#                 # 방향이 2이고 y좌표가 동일한 info가 있는지 체크
-#                 if info[i][1] == info[j][1] and info[j][2] == 2:
-#                     break
-#             # 없었다면 info[i]삭제해야함
-#             else:
-#                 k.remove(info[i])
-#     info = k
-#     p = info[:]
-#     # 쌍소멸 과정
-#     i = 0
-#     while p:
-#         # 방향이 0 일때
-#         if info[i][2] == 0:
-#             for j in range(N):
-#                 # 방향이 1이고 x좌표가 동일한 info 체크
-#                 if info[i][0] == info[j][0] and info[j][2] == 1:
-#                     # 에너지 계산
-#                     result += info[i][3]
-#                     result += info[j][3]
-#                     p.remove(info[i])
-#                     p.remove(info[j])
-#         # 방향 1 일 때
-#         elif info[i][2] == 1:
-#             for j in range(N):
-#                 # 방향이 0이고 x좌표가 동일한 info 체크
-#                 if info[i][0] == info[j][0] and info[j][2] == 0:
-#                     # 에너지 계산
-#                     result += info[i][3]
-#                     result += info[j][3]
-#                     p.remove(info[i])
-#                     p.remove(info[j])
-#         # 방향 2 일 때
-#         elif info[i][2] == 2:
-#             for j in range(N):
-#                 # 방향이 3이고 y좌표가 동일한 info가 있는지 체크
-#                 if info[i][1] == info[j][1] and info[j][2] == 3:
-#                     # 에너지 계산
-#                     result += info[i][3]
-#                     result += info[j][3]
-#                     p.remove(info[i])
-#                     p.remove(info[j])
-#         # 방향 3 일 때
-#         elif info[i][2] == 3:
-#             for j in range(N):
-#                 # 방향이 2이고 y좌표가 동일한 info가 있는지 체크
-#                 if info[i][1] == info[j][1] and info[j][2] == 2:
-#                     # 에너지 계산
-#                     result += info[i][3]
-#                     result += info[j][3]
-#                     p.remove(info[i])
-#                     p.remove(info[j])
-#
-#     print(f'#{tc} {result}')
-
-
-# 또 틀려?
 # 델타이동 상하좌우
-# dx = [0, 0, -0.5, 0.5]
-# dy = [0.5, -0.5, 0, 0]
+dx = [0, 0, -0.5, 0.5]
+dy = [0.5, -0.5, 0, 0]
 
 T = int(input())
 
@@ -198,13 +97,112 @@ for tc in range(1, 1+T):
             # 없었다면 info[i]삭제해야함
             else:
                 k.remove(info[i])
-    # 쌍소멸될 명단만 남음 에너지 다 더하면됨
     info = k
-    for i in info:
-        result += i[3]
+    p = info[:]
+    # 쌍소멸 과정
+    i = 0
+    while p:
+        # 방향이 0 일때
+        if info[i][2] == 0:
+            for j in range(N):
+                # 방향이 1이고 x좌표가 동일한 info 체크
+                if info[i][0] == info[j][0] and info[j][2] == 1:
+                    # 에너지 계산
+                    result += info[i][3]
+                    result += info[j][3]
+                    p.remove(info[i])
+                    p.remove(info[j])
+        # 방향 1 일 때
+        elif info[i][2] == 1:
+            for j in range(N):
+                # 방향이 0이고 x좌표가 동일한 info 체크
+                if info[i][0] == info[j][0] and info[j][2] == 0:
+                    # 에너지 계산
+                    result += info[i][3]
+                    result += info[j][3]
+                    p.remove(info[i])
+                    p.remove(info[j])
+        # 방향 2 일 때
+        elif info[i][2] == 2:
+            for j in range(N):
+                # 방향이 3이고 y좌표가 동일한 info가 있는지 체크
+                if info[i][1] == info[j][1] and info[j][2] == 3:
+                    # 에너지 계산
+                    result += info[i][3]
+                    result += info[j][3]
+                    p.remove(info[i])
+                    p.remove(info[j])
+        # 방향 3 일 때
+        elif info[i][2] == 3:
+            for j in range(N):
+                # 방향이 2이고 y좌표가 동일한 info가 있는지 체크
+                if info[i][1] == info[j][1] and info[j][2] == 2:
+                    # 에너지 계산
+                    result += info[i][3]
+                    result += info[j][3]
+                    p.remove(info[i])
+                    p.remove(info[j])
 
     print(f'#{tc} {result}')
 
+
+# 또 틀려?
+# 델타이동 상하좌우
+# dx = [0, 0, -0.5, 0.5]
+# dy = [0.5, -0.5, 0, 0]
+
+# T = int(input())
+#
+# for tc in range(1, 1+T):
+#     N = int(input())
+#     info = [list(map(int, input().split())) for _ in range(N)]
+#     result = 0
+#     k = info[:]
+#     # 가망없는 친구들 삭제
+#     for i in range(N):
+#         # 방향이 0 일때
+#         if info[i][2] == 0:
+#             for j in range(N):
+#                 # 방향이 1이고 x좌표가 동일한 info가 있는지 체크
+#                 if info[i][0] == info[j][0] and info[j][2] == 1:
+#                     break
+#             # 없었다면 info[i]삭제해야함
+#             else:
+#                 k.remove(info[i])
+#         # 방향 1 일 때
+#         elif info[i][2] == 1:
+#             for j in range(N):
+#                 # 방향이 0이고 x좌표가 동일한 info가 있는지 체크
+#                 if info[i][0] == info[j][0] and info[j][2] == 0:
+#                     break
+#             # 없었다면 info[i]삭제해야함
+#             else:
+#                 k.remove(info[i])
+#         # 방향 2 일 때
+#         elif info[i][2] == 2:
+#             for j in range(N):
+#                 # 방향이 3이고 y좌표가 동일한 info가 있는지 체크
+#                 if info[i][1] == info[j][1] and info[j][2] == 3:
+#                     break
+#             # 없었다면 info[i]삭제해야함
+#             else:
+#                 k.remove(info[i])
+#         # 방향 3 일 때
+#         elif info[i][2] == 3:
+#             for j in range(N):
+#                 # 방향이 2이고 y좌표가 동일한 info가 있는지 체크
+#                 if info[i][1] == info[j][1] and info[j][2] == 2:
+#                     break
+#             # 없었다면 info[i]삭제해야함
+#             else:
+#                 k.remove(info[i])
+#     # 쌍소멸될 명단만 남음 에너지 다 더하면됨
+#     info = k
+#     for i in info:
+#         result += i[3]
+#
+#     print(f'#{tc} {result}')
+#
 
 
 
